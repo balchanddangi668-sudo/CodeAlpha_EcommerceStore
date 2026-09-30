@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Orders - CodeAlpha Store</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        nav {
+            background: #111827;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .container {
+            width: 86%;
+            max-width: 1000px;
+            margin: 40px auto;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        .order-card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .order-id {
+            color: #666;
+            font-size: 14px;
+            word-break: break-all;
+        }
+
+        .status {
+            background: #e8f5e9;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .product-item {
+            border-top: 1px solid #eee;
+            padding: 15px 0;
+        }
+
+        .product-item p {
+            margin: 6px 0;
+            color: #555;
+        }
+
+        .total {
+            border-top: 1px solid #ddd;
+            margin-top: 10px;
+            padding-top: 15px;
+            text-align: right;
+        }
+
+        .empty {
+            background: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .shop-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 11px 18px;
+            background: #111827;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+        }
+
+        .shop-btn:hover {
+            background: #374151;
+        }
+
+        @media (max-width: 700px) {
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container {
+                width: 92%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav>
+
+        <div class="logo">
+            CodeAlpha Store
+        </div>
+
+        <div class="nav-links">
+            <a href="/products">Products</a>
+            <a href="/cart">Cart</a>
+            <a href="/orders">My Orders</a>
+            <a href="/logout">Logout</a>
+        </div>
+
+    </nav>
+
+
+    <div class="container">
+
+        <h1>📦 My Orders</h1>
+
+        <% if (orders.length === 0) { %>
+
+            <div class="empty">
+
+                <h2>You have no orders yet.</h2>
+
+                <a href="/products" class="shop-btn">
+                    Start Shopping
+                </a>
+
+            </div>
+
+        <% } else { %>
+
+            <% orders.forEach(order => { %>
+
+                <div class="order-card">
+
+                    <div class="order-header">
+
+                        <div>
+
+                            <h2>Order Details</h2>
+
+                            <p class="order-id">
+                                Order ID: <%= order._id %>
+                            </p>
+
+                            <p>
+                                Date:
+                                <%= order.orderDate.toLocaleString() %>
+                            </p>
+
+                        </div>
+
+                        <div class="status">
+                            <%= order.status %>
+                        </div>
+
+                    </div>
+
+
+                    <% order.items.forEach(item => { %>
+
+                        <div class="product-item">
+
+                            <h3>
+                                <%= item.product.name %>
+                            </h3>
+
+                            <p>
+                                Price: ₹<%= item.price %>
+                            </p>
+
+                            <p>
+                                Quantity: <%= item.quantity %>
+                            </p>
+
+                            <p>
+                                Subtotal:
+                                ₹<%= item.price * item.quantity %>
+                            </p>
+
+                        </div>
+
+                    <% }) %>
+
+
+                    <div class="total">
+
+                        <h2>
+                            Total: ₹<%= order.totalAmount %>
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            <% }) %>
+
+        <% } %>
+
+    </div>
+
+</body>
+</html>
